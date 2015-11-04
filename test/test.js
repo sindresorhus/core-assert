@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/680dda802393ef1513a8a84a353dfc2ecfacacb2/test/parallel/test-assert.js
+// https://github.com/nodejs/node/blob/ded4f91eeff478a22e4a0eb5ba2c7ce811512c64/test/parallel/test-assert.js
 'use strict';
 var common = require('./common');
 var a = require('../');
@@ -470,5 +470,9 @@ testBlockTypeError(assert.throws, null);
 testBlockTypeError(assert.doesNotThrow, null);
 testBlockTypeError(assert.throws, undefined);
 testBlockTypeError(assert.doesNotThrow, undefined);
+
+// https://github.com/nodejs/node/issues/3275
+assert.throws(() => { throw 'error'; }, err => err === 'error');
+assert.throws(() => { throw Error(); }, err => err instanceof Error);
 
 console.log('All OK');

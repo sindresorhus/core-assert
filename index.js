@@ -1,4 +1,4 @@
-// From: https://github.com/nodejs/node/blob/680dda802393ef1513a8a84a353dfc2ecfacacb2/lib/assert.js
+// https://github.com/nodejs/node/blob/ded4f91eeff478a22e4a0eb5ba2c7ce811512c64/lib/assert.js
 // ------------------- //
 
 
@@ -287,13 +287,17 @@ function expectedException(actual, expected) {
 
   if (Object.prototype.toString.call(expected) == '[object RegExp]') {
     return expected.test(actual);
-  } else if (actual instanceof expected) {
-    return true;
-  } else if (expected.call({}, actual) === true) {
-    return true;
   }
 
-  return false;
+  try {
+    if (actual instanceof expected) {
+      return true;
+    }
+  } catch (e) {
+    // Ignore.  The instanceof check doesn't work for arrow functions.
+  }
+
+  return expected.call({}, actual) === true;
 }
 
 function _throws(shouldThrow, block, expected, message) {
