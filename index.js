@@ -297,6 +297,10 @@ function expectedException(actual, expected) {
     // Ignore.  The instanceof check doesn't work for arrow functions.
   }
 
+  if (Error.isPrototypeOf(expected)) {
+    return false;
+  }
+
   return expected.call({}, actual) === true;
 }
 
