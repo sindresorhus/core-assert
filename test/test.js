@@ -328,7 +328,7 @@ assert.throws(function() {assert.ifError(new Error('test error'));});
 assert.doesNotThrow(function() {assert.ifError(null);});
 assert.doesNotThrow(function() {assert.ifError();});
 
-assert.throws(() => {
+assert.throws(function () {
   assert.doesNotThrow(makeBlock(thrower, Error), 'user message');
 }, /Got unwanted exception. user message/,
    'a.doesNotThrow ignores user message');
