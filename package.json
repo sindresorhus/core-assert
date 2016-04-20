@@ -36,6 +36,7 @@
     "same"
   ],
   "dependencies": {
-    "buf-compare": "^1.0.0"
+    "buf-compare": "^1.0.0",
+    "is-error": "^2.2.0"
   }
 }

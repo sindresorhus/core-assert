@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/ded4f91eeff478a22e4a0eb5ba2c7ce811512c64/test/parallel/test-assert.js
+// https://github.com/nodejs/node/blob/c1d82ac2ff15594840e2a1b9531b506ae067ed27/test/parallel/test-assert.js
 'use strict';
 var common = require('./common');
 var a = require('../');
@@ -327,6 +327,11 @@ assert.equal(true, threw,
 assert.throws(function() {assert.ifError(new Error('test error'));});
 assert.doesNotThrow(function() {assert.ifError(null);});
 assert.doesNotThrow(function() {assert.ifError();});
+
+assert.throws(() => {
+  assert.doesNotThrow(makeBlock(thrower, Error), 'user message');
+}, /Got unwanted exception. user message/,
+   'a.doesNotThrow ignores user message');
 
 // make sure that validating using constructor really works
 threw = false;

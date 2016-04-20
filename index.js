@@ -1,4 +1,4 @@
-// https://github.com/nodejs/node/blob/ded4f91eeff478a22e4a0eb5ba2c7ce811512c64/lib/assert.js
+// https://github.com/nodejs/node/commit/c1d82ac2ff15594840e2a1b9531b506ae067ed27
 // ------------------- //
 
 
@@ -43,6 +43,7 @@ function isPrimitive(arg) {
 // ------------------- //
 // Use a polyfill for Node.js 0.10 support
 var compare = require('buf-compare');
+var isError = require('is-error');
 // ------------------- //
 
 var util = require('util');
@@ -304,6 +305,16 @@ function expectedException(actual, expected) {
   return expected.call({}, actual) === true;
 }
 
+function _tryBlock(block) {
+  var error;
+  try {
+    block();
+  } catch (e) {
+    error = e;
+  }
+  return error;
+}
+
 function _throws(shouldThrow, block, expected, message) {
   var actual;
 
@@ -316,11 +327,7 @@ function _throws(shouldThrow, block, expected, message) {
     expected = null;
   }
 
-  try {
-    block();
-  } catch (e) {
-    actual = e;
-  }
+  actual = _tryBlock(block);
 
   message = (expected && expected.name ? ' (' + expected.name + ').' : '.') +
             (message ? ' ' + message : '.');
@@ -329,7 +336,14 @@ function _throws(shouldThrow, block, expected, message) {
     fail(actual, expected, 'Missing expected exception' + message);
   }
 
-  if (!shouldThrow && expectedException(actual, expected)) {
+  var userProvidedMessage = typeof message === 'string';
+  var isUnwantedException = !shouldThrow && isError(actual);
+  var isUnexpectedException = !shouldThrow && actual && !expected;
+
+  if ((isUnwantedException &&
+         userProvidedMessage &&
+         expectedException(actual, expected)) ||
+         isUnexpectedException) {
     fail(actual, expected, 'Got unwanted exception' + message);
   }
 
@@ -343,12 +357,12 @@ function _throws(shouldThrow, block, expected, message) {
 // assert.throws(block, Error_opt, message_opt);
 
 assert.throws = function(block, /*optional*/error, /*optional*/message) {
-  _throws.apply(this, [true].concat(pSlice.call(arguments)));
+  _throws(true, block, error, message);
 };
 
 // EXTENSION! This is annoying to write outside this module.
-assert.doesNotThrow = function(block, /*optional*/message) {
-  _throws.apply(this, [false].concat(pSlice.call(arguments)));
+assert.doesNotThrow = function(block, /*optional*/error, /*optional*/message) {
+  _throws(false, block, error, message);
 };
 
 assert.ifError = function(err) { if (err) throw err; };
