@@ -1,6 +1,6 @@
 # core-assert [![Build Status](https://travis-ci.org/sindresorhus/core-assert.svg?branch=master)](https://travis-ci.org/sindresorhus/core-assert)
 
-> Node.js [`assert`](https://nodejs.org/api/assert.html) as a standalone module
+> Node.js [`assert`](https://nodejs.org/api/assert.html) as a standalone module *([ponyfill](https://ponyfill.com))*
 
 Useful to ensure consistency between Node.js versions as the `assert` module has changed a lot.
 
