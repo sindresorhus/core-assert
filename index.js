@@ -299,7 +299,7 @@ function expectedException(actual, expected) {
   }
 
   if (Error.isPrototypeOf && Error.isPrototypeOf(expected)) {
-    return false;
+    return true;
   }
 
   return expected.call({}, actual) === true;
