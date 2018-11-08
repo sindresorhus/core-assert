@@ -1,3 +1,9 @@
+# Deprecated
+
+I don't have time or interest in keeping it in sync with Node.js anymore. It should continue to work fine though. It's just missing some improvements from later Node.js versions.
+
+---
+
 # core-assert [![Build Status](https://travis-ci.org/sindresorhus/core-assert.svg?branch=master)](https://travis-ci.org/sindresorhus/core-assert)
 
 > Node.js [`assert`](https://nodejs.org/api/assert.html) as a standalone module *([ponyfill](https://ponyfill.com))*
