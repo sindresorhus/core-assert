@@ -1,6 +1,6 @@
 {
   "name": "core-assert",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "Node.js `assert` as a standalone module",
   "license": "MIT",
   "repository": "sindresorhus/core-assert",
